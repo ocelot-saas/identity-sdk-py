@@ -1,0 +1,13 @@
+--index-url https://pypi.python.org/simple/
+--extra-index-url https://pypi.fury.io/vsRAKKMwEs5p1RhfMGiF/ocelot-saas/
+
+# Duplicated from setup.py.
+falcon>=1,<2
+requests>=2,<3
+validation-py==0.0.3
+validation-common-py==0.1.0
+
+# Duplicated from setup.py, for testing.
+coverage>=4,<5
+coveralls>=1,<2
+tabletest3>=1,<2

@@ -1,0 +1,24 @@
+language: python
+
+python:
+- "3.4"
+
+cache: pip
+
+env:
+  global:
+  - PYTHONPATH=$PYTHONPATH:$TRAVIS_BUILD_DIR/src
+
+install:
+- pip install -r requirements.txt
+
+script:
+- coverage run --source=clock --module unittest discover --verbose
+
+after_success:
+- coveralls
+
+deploy:
+- skip_cleanup: true
+  provider: script
+  script: bin/togemfury.sh
