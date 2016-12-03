@@ -16,7 +16,7 @@ def readme():
 
 setup(
     name='identity-sdk-py',
-    version='0.0.0',
+    version='0.0.1',
     description='The Identity service SDK.',
     long_description=readme(),
     keywords='identity sdk',

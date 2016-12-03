@@ -1,5 +1,7 @@
 """Validation for inventory entities."""
 
+import re
+
 import validation
 import validation_common
 
