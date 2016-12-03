@@ -32,18 +32,11 @@ class Auth0UserValidator(validation.Validator):
     def __init__(self, url_validator):
         self._url_validator = url_validator
 
-    def validate(self, auth0_user_raw):
-        try:
-            auth0_user = json.loads(auth0_user_raw)
-            jsonschema.validate(auth0_user, self.SCHEMA)
-            auth0_user['picture'] = self._url_validator.validate(auth0_user['picture'])
-            return auth0_user
-        except ValueError as e:
-            raise validation.Error('Could not decode Auth0 JSON response') from e
-        except jsonschema.ValidationError as e:
-            raise validation.Error('Could not validate Auth0 user data') from e
-        except Exception as e:
-            raise validation.Error('Other error') from e
+    def _post_schema_validate(self, auth0_user_raw):
+        auth0_user = dict(auth0_user_raw)
+        auth0_user['picture'] = self._url_validator.validate(auth0_user['picture'])
+
+        return auth0_user
 
 
 class AccessTokenHeaderValidator(validation.Validator):
@@ -59,11 +52,8 @@ class AccessTokenHeaderValidator(validation.Validator):
     def __init__(self):
         self._auth_re = re.compile('Bearer (.+)')
 
-    def validate(self, auth_header):
-        if not isinstance(auth_header, str):
-            raise validation.Error('Missing Authorization header')
-
-        match = self._auth_re.match(auth_header)
+    def _post_schema_validate(self, auth_header_raw):
+        match = self._auth_re.match(auth_header_raw)
 
         if match is None:
             raise validation.Error('Invalid Authorization header')
