@@ -115,7 +115,7 @@ class UserResponseValidator(validation.Validator):
     def __init__(self, user_validator):
         self._user_validator = user_validator
 
-    def _post_schema_validation(self, user_response_raw):
+    def _post_schema_validate(self, user_response_raw):
         user_response = dict(user_response_raw)
 
         user_response['user'] = self._user_validator.validate(user_response['user'])
